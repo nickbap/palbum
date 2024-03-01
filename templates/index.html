@@ -19,13 +19,11 @@
     <title>palbum</title>
 </head>
 
-</head>
-
 <body>
     <div class="m-1">
         <div>Settings</div>
         <div id="image" class="d-flex align-items-center justify-content-center">
-            <div hx-get="/image" hx-trigger="every 2s"></div>
+            <div hx-get="/image" hx-trigger="every {{ display_time }}s"></div>
         </div>
     </div>
 </body>
