@@ -4,3 +4,8 @@ dev:
 format:
 	black .
 	isort *.py
+
+lint:
+	flake8 app.py
+
+pr: format lint

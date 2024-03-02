@@ -31,7 +31,7 @@ class PhotoOrder(str, Enum):
     RANDOM = "random"
 
     @classmethod
-    def get_form_choices(self):
+    def get_form_choices(cls):
         return [
             (value.value, key.title()) for key, value in PhotoOrder.__members__.items()
         ]
