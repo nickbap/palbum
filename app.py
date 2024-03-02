@@ -1,21 +1,19 @@
 import json
 import random
-
 from dataclasses import asdict
 from dataclasses import dataclass
 from enum import Enum
 
 from flask import Flask
-from flask import render_template
 from flask import redirect
+from flask import render_template
 from flask import url_for
 from flask_wtf import FlaskForm
+from wtforms import IntegerField
 from wtforms import SelectField
 from wtforms import SubmitField
-from wtforms import IntegerField
 from wtforms.validators import DataRequired
 from wtforms.validators import NumberRange
-
 
 IMAGES = [
     "paso_01.JPG",
