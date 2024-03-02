@@ -3,3 +3,5 @@
 (Work in Progress)
 
 A basic web app for displaying photos. Ideally, this will be run on a small, raspberry pi powered screen but we'll see.
+
+![](https://github.com/nickbap/palbum/blob/main/demo.gif)
