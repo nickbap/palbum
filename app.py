@@ -98,7 +98,3 @@ def home():
 def images():
     image_id = random.choice(IMAGES)
     return render_template("components/image.html", image_id=image_id)
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
