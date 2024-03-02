@@ -1,4 +1,5 @@
 import json
+import os
 import random
 from dataclasses import asdict
 from dataclasses import dataclass
@@ -75,7 +76,7 @@ class DisplaySettingsForm(FlaskForm):
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "SECRET_KEY"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY") or "SECRET_KEY"
 
 
 @app.route("/", methods=["GET", "POST"])
