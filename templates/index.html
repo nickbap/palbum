@@ -10,11 +10,6 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"
         integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous">
     </script>
-    <style>
-        #image {
-            height: 100vh;
-        }
-    </style>
 
     <title>palbum</title>
 </head>
@@ -80,7 +75,6 @@
                 </div>
             </div>
         </div>
-
 
         <div id="image" class="d-flex align-items-center justify-content-center">
             <div hx-get="/image" hx-trigger="every {{ display_time }}s"></div>
