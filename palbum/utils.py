@@ -41,6 +41,9 @@ class DisplaySettings:
 
     @classmethod
     def read(cls):
-        with open(cls.json_name, "r") as read_file:
-            data = json.load(read_file)
-            return cls(**data)
+        try:
+            with open(cls.json_name, "r") as read_file:
+                data = json.load(read_file)
+                return cls(**data)
+        except FileNotFoundError:
+            return

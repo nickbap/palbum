@@ -14,9 +14,7 @@ main = Blueprint("main", __name__)
 
 @main.route("/", methods=["GET", "POST"])
 def home():
-    settings = DisplaySettings.read()
     form = DisplaySettingsForm()
-
     if form.validate_on_submit():
         new_settings = DisplaySettings(
             form.photo_order.data, form.display_time.data, form.fade.data
@@ -24,9 +22,11 @@ def home():
         new_settings.save()
         return redirect(url_for("main.home"))
 
-    form.photo_order.data = settings.photo_order
-    form.display_time.data = settings.display_time
-    form.fade.data = settings.fade
+    settings = DisplaySettings.read()
+    if settings:
+        form.photo_order.data = settings.photo_order
+        form.display_time.data = settings.display_time
+        form.fade.data = settings.fade
     return render_template("index.html", form=form, settings=settings)
 
 

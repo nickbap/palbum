@@ -88,12 +88,13 @@
         </div>
 
         <div class="d-flex align-items-center justify-content-center">
-            {% if settings.fade %}
+            {% if settings and settings.fade %}
             <div class="fade-me-out" hx-get="/image" hx-trigger="every {{ settings.display_time }}s"
                 hx-swap="innerHTML swap:1s">
             </div>
             {% else %}
-            <div hx-get="/image" hx-trigger="every {{ settings.display_time }}s"></div>
+            <div hx-get="/image"
+                hx-trigger="every {{ settings.display_time if settings and settings.display_time else 5 }}s"></div>
             {% endif %}
         </div>
     </div>
