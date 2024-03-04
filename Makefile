@@ -2,10 +2,10 @@ dev:
 	flask run --debug
 
 format:
-	black .
-	isort *.py
+	black palbum
+	isort palbum
 
 lint:
-	flake8 app.py
+	flake8 palbum
 
 pr: format lint
