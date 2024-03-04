@@ -161,6 +161,7 @@ cython_debug/
 
 # other
 .DS_Store
+.flaskenv
 .python-version
 scratch.ipynb
-.flaskenv
+scratch.py
