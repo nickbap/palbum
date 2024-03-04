@@ -10,6 +10,12 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"
         integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous">
     </script>
+    <style>
+        .fade-me-out.htmx-swapping {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+    </style>
 
     <title>palbum</title>
 </head>
@@ -63,6 +69,11 @@
                                     {{ form.display_time(class="form-control form-control-md", placeholder="Photo Display Time (seconds)") }}
                                     {% endif %}
                                 </div>
+                                <!-- Fade -->
+                                <div class="form-check">
+                                    {{ form.fade(class="form-check-input") }}
+                                    {{ form.fade.label(class="form-check-label", placeholder="Fade Images Out") }}
+                                </div>
                             </fieldset>
 
                             <div class="modal-footer mt-3">
@@ -76,9 +87,16 @@
             </div>
         </div>
 
-        <div id="image" class="d-flex align-items-center justify-content-center">
-            <div hx-get="/image" hx-trigger="every {{ display_time }}s"></div>
+        <div class="d-flex align-items-center justify-content-center">
+            {% if settings.fade %}
+            <div class="fade-me-out" hx-get="/image" hx-trigger="every {{ settings.display_time }}s"
+                hx-swap="innerHTML swap:1s">
+            </div>
+            {% else %}
+            <div hx-get="/image" hx-trigger="every {{ settings.display_time }}s"></div>
+            {% endif %}
         </div>
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
