@@ -1,12 +1,10 @@
-import random
-
 from flask import Blueprint
 from flask import redirect
 from flask import render_template
 from flask import url_for
 
 from palbum.forms import DisplaySettingsForm
-from palbum.utils import IMAGES
+from palbum.models import Image
 from palbum.utils import DisplaySettings
 
 main = Blueprint("main", __name__)
@@ -32,5 +30,5 @@ def home():
 
 @main.route("/image")
 def images():
-    image_id = random.choice(IMAGES)
+    image_id = Image.get_random_image()
     return render_template("components/image.html", image_id=image_id)
