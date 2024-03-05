@@ -166,3 +166,4 @@ cython_debug/
 palbum.db
 scratch.ipynb
 scratch.py
+images/
