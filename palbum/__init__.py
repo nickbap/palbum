@@ -22,4 +22,8 @@ def create_app():
 
     from palbum import models  # noqa: F401
 
+    from palbum import commands
+
+    app.cli.add_command(commands.download_images)
+
     return app
