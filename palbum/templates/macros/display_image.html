@@ -1,0 +1,22 @@
+{% macro display_image(image) -%}
+<div id="image-{{ image.id }}" class="p-2">
+    <div class="d-flex flex-column align-items-center">
+        <figure class="figure {{ 'border border-danger rounded' if not image.is_visible else '' }}">
+            <img class="img-thumbnail" style="max-width: 300px; height:auto" src="static/images/{{ image.name }}">
+        </figure>
+        {% if not image.is_visible %}
+        <button type="button" class="btn btn-success">
+            <a hx-target="#image-{{ image.id }}" hx-swap="outerHTML"
+                hx-post="{{ url_for('main.image_toggle', image_id=image.id) }}"
+                class="text-decoration-none text-reset">Show</a>
+        </button>
+        {% else %}
+        <button type="button" class="btn btn-danger">
+            <a hx-target="#image-{{ image.id }}" hx-swap="outerHTML"
+                hx-post="{{ url_for('main.image_toggle', image_id=image.id) }}"
+                class="text-decoration-none text-reset">Hide</a>
+        </button>
+        {% endif %}
+    </div>
+</div>
+{%- endmacro %}

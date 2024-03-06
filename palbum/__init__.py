@@ -20,9 +20,8 @@ def create_app():
 
     app.register_blueprint(main)
 
-    from palbum import models  # noqa: F401
-
     from palbum import commands
+    from palbum import models  # noqa: F401
 
     app.cli.add_command(commands.download_images)
 

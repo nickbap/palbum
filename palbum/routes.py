@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import redirect
 from flask import render_template
 from flask import url_for
+from sqlalchemy import asc
 
 from palbum.forms import DisplaySettingsForm
 from palbum.models import Image
@@ -29,6 +30,18 @@ def home():
 
 
 @main.route("/image")
-def images():
+def image():
     image_id = Image.get_random_image()
     return render_template("components/image.html", image_id=image_id)
+
+
+@main.route("/images")
+def images():
+    images = Image.query.order_by(asc("added_at")).all()
+    return render_template("images.html", images=images)
+
+
+@main.route("/image/toggle/<int:image_id>", methods=["POST"])
+def image_toggle(image_id):
+    image = Image.toggle_visibility(image_id)
+    return render_template("components/image-manager-image.html", image=image)

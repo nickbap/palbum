@@ -1,5 +1,4 @@
 import click
-from flask import current_app
 
 from palbum.utils import download_images_from_dbx
 

@@ -1,0 +1,18 @@
+{% import "macros/display_image.html" as display_image %}
+{% extends '_base.html' %}
+
+{% block content %}
+<button type="button" class="btn btn-link link-secondary link-underline link-underline-opacity-0">
+    <a class="text-decoration-none text-reset" href="{{ url_for('main.home') }}">Home</a>
+</button>
+
+<h1 class="py-3 text-center">Image Manager</h1>
+{% if images %}
+<div class="container d-flex flex-wrap justify-content-around">
+    {% for image in images %}
+    {{ display_image.display_image(image) }}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}
