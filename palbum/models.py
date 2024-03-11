@@ -12,3 +12,12 @@ class Image(db.Model):
 
     def __repr__(self):
         return f"<Image {self.id} {self.name}>"
+
+
+class ImageMeta(db.Model):
+    __tablename__ = "image_meta"
+    id = db.Column(db.Integer, primary_key=True)
+    last_image_id_shown = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f"<ImageMeta {self.id} {self.last_image_id_shown}>"
