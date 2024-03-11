@@ -1,4 +1,3 @@
-import random
 from datetime import datetime
 
 from palbum import db
@@ -20,11 +19,6 @@ class Image(db.Model):
     @staticmethod
     def get_image_name_list():
         return [image.name for image in Image.query.all()]
-
-    @staticmethod
-    def get_random_image():
-        images = Image.query.filter_by(is_visible=True).all()
-        return random.choice(images)
 
     @staticmethod
     def toggle_visibility(image_id):

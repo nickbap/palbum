@@ -5,6 +5,7 @@ from flask import url_for
 from sqlalchemy import asc
 
 from palbum.forms import DisplaySettingsForm
+from palbum.model_storage import ImageModelStorage
 from palbum.models import Image
 from palbum.utils import DisplaySettings
 
@@ -31,7 +32,7 @@ def home():
 
 @main.route("/image")
 def image():
-    image = Image.get_random_image()
+    image = ImageModelStorage.get_random_image()
     return render_template("components/image.html", image=image)
 
 
