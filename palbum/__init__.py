@@ -25,4 +25,16 @@ def create_app():
 
     app.cli.add_command(commands.download_images)
 
+    if app.debug:
+        from palbum import model_storage  # noqa: F401
+
+        @app.shell_context_processor
+        def make_shell_context():
+            return {
+                "db": db,
+                "Image": models.Image,
+                "ImageModelStorage": model_storage.ImageModelStorage,
+                "ImageMetaModelStorage": model_storage.ImageMetaModelStorage,
+            }
+
     return app
