@@ -1,5 +1,6 @@
 from sqlalchemy.sql.expression import func
 
+from palbum import db
 from palbum.models import Image
 
 
@@ -32,6 +33,12 @@ class BaseModelStorage:
 
 class ImageModelStorage(BaseModelStorage):
     model = Image
+
+    @classmethod
+    def create(cls, name, is_visible=True):
+        image = cls.model(name=name, is_visible=is_visible)
+        db.session.add(image)
+        db.session.commit()
 
     @classmethod
     def get_image_name_list(cls):

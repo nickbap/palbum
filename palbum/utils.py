@@ -10,7 +10,6 @@ from PIL import Image as PILImage
 from PIL import ImageOps
 
 from palbum.model_storage import ImageModelStorage
-from palbum.models import Image
 
 
 class PhotoOrder(str, Enum):
@@ -95,7 +94,7 @@ def download_images_from_dbx():
 
             _revise_image(image)
 
-            Image.create(image)
+            ImageModelStorage.create(image)
 
             print(f"{image} downloaded and saved successfully")
         except Exception as e:

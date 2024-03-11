@@ -10,12 +10,6 @@ class Image(db.Model):
     name = db.Column(db.Text, unique=True, nullable=False)
     is_visible = db.Column(db.Boolean, nullable=False, default=True)
 
-    @classmethod
-    def create(cls, name, is_visible=True):
-        image = cls(name=name, is_visible=is_visible)
-        db.session.add(image)
-        db.session.commit()
-
     @staticmethod
     def toggle_visibility(image_id):
         image = Image.query.filter_by(id=image_id).first()
