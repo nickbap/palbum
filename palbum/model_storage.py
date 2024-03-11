@@ -34,5 +34,9 @@ class ImageModelStorage(BaseModelStorage):
     model = Image
 
     @classmethod
+    def get_image_name_list(cls):
+        return [image.name for image in cls.get_all()]
+
+    @classmethod
     def get_random_image(cls):
         return Image.query.filter_by(is_visible=True).order_by(func.random()).first()

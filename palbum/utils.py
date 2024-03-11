@@ -9,6 +9,7 @@ from flask import current_app
 from PIL import Image as PILImage
 from PIL import ImageOps
 
+from palbum.model_storage import ImageModelStorage
 from palbum.models import Image
 
 
@@ -70,7 +71,7 @@ def download_images_from_dbx():
     if not dbx_image_map:
         return
 
-    current_image_list = Image.get_image_name_list()
+    current_image_list = ImageModelStorage.get_image_name_list()
     images_to_download = set(dbx_image_map.keys()).difference(set(current_image_list))
     if not images_to_download:
         print("No new images to download")

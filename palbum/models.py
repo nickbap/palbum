@@ -17,10 +17,6 @@ class Image(db.Model):
         db.session.commit()
 
     @staticmethod
-    def get_image_name_list():
-        return [image.name for image in Image.query.all()]
-
-    @staticmethod
     def toggle_visibility(image_id):
         image = Image.query.filter_by(id=image_id).first()
         if not image:
