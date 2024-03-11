@@ -46,4 +46,16 @@ class ImageModelStorage(BaseModelStorage):
 
     @classmethod
     def get_random_image(cls):
-        return Image.query.filter_by(is_visible=True).order_by(func.random()).first()
+        return (
+            cls.model.query.filter_by(is_visible=True).order_by(func.random()).first()
+        )
+
+    @classmethod
+    def toggle_visibility(cls, image_id):
+        image = cls.model.query.filter_by(id=image_id).first()
+        if not image:
+            return
+        image.is_visible = not image.is_visible
+        db.session.add(image)
+        db.session.commit()
+        return image

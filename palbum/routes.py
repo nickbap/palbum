@@ -44,5 +44,5 @@ def images():
 
 @main.route("/image/toggle/<int:image_id>", methods=["POST"])
 def image_toggle(image_id):
-    image = Image.toggle_visibility(image_id)
+    image = ImageModelStorage.toggle_visibility(image_id)
     return render_template("components/image-manager-image.html", image=image)
