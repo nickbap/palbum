@@ -31,8 +31,8 @@ def home():
 
 @main.route("/image")
 def image():
-    image_id = Image.get_random_image()
-    return render_template("components/image.html", image_id=image_id)
+    image = Image.get_random_image()
+    return render_template("components/image.html", image=image)
 
 
 @main.route("/images")

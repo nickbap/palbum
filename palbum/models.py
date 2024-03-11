@@ -24,7 +24,7 @@ class Image(db.Model):
     @staticmethod
     def get_random_image():
         images = Image.query.filter_by(is_visible=True).all()
-        return random.choice([image.name for image in images])
+        return random.choice(images)
 
     @staticmethod
     def toggle_visibility(image_id):
