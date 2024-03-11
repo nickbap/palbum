@@ -1,7 +1,9 @@
+from sqlalchemy.sql.expression import asc
 from sqlalchemy.sql.expression import func
 
 from palbum import db
 from palbum.models import Image
+from palbum.models import ImageMeta
 
 
 class BaseModelStorage:
@@ -46,9 +48,33 @@ class ImageModelStorage(BaseModelStorage):
 
     @classmethod
     def get_random_image(cls):
-        return (
-            cls.model.query.filter_by(is_visible=True).order_by(func.random()).first()
+        image_meta = ImageMetaModelStorage.get_last_image_id_shown()
+        image = (
+            cls.model.query.filter_by(is_visible=True)
+            .filter(cls.model.id != image_meta.last_image_id_shown)
+            .order_by(func.random())
+            .limit(1)
+            .first()
         )
+        ImageMetaModelStorage.set_last_image_id_shown(image.id)
+        return image
+
+    @classmethod
+    def get_sequential_image(cls):
+        image_meta = ImageMetaModelStorage.get_last_image_id_shown()
+        image = (
+            cls.model.query.filter(
+                cls.model.is_visible == True,  # noqa: E712
+                cls.model.id > image_meta.last_image_id_shown,
+            )
+            .order_by(asc(cls.model.id))
+            .limit(1)
+            .first()
+        )
+        if not image:
+            image = cls.model.query.filter_by(is_visible=True).first()
+        ImageMetaModelStorage.set_last_image_id_shown(image.id)
+        return image
 
     @classmethod
     def toggle_visibility(cls, image_id):
@@ -59,3 +85,23 @@ class ImageModelStorage(BaseModelStorage):
         db.session.add(image)
         db.session.commit()
         return image
+
+
+class ImageMetaModelStorage(BaseModelStorage):
+    model = ImageMeta
+
+    @classmethod
+    def create(cls, image_id):
+        image_meta = cls.model(last_image_id_shown=image_id)
+        db.session.add(image_meta)
+        db.session.commit()
+
+    @classmethod
+    def get_last_image_id_shown(cls):
+        return cls.get_first()
+
+    @classmethod
+    def set_last_image_id_shown(cls, image_id):
+        image_meta = cls.get_first()
+        image_meta.last_image_id_shown = image_id
+        db.session.commit()
