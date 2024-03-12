@@ -47,6 +47,10 @@ class ImageModelStorage(BaseModelStorage):
         return [image.name for image in cls.get_all()]
 
     @classmethod
+    def get_all_images_by_added_at(cls):
+        return cls.model.query.order_by(asc("added_at")).all()
+
+    @classmethod
     def get_random_image(cls):
         image_meta = ImageMetaModelStorage.get_last_image_id_shown()
         image = (

@@ -2,11 +2,9 @@ from flask import Blueprint
 from flask import redirect
 from flask import render_template
 from flask import url_for
-from sqlalchemy import asc
 
 from palbum.forms import DisplaySettingsForm
 from palbum.model_storage import ImageModelStorage
-from palbum.models import Image
 from palbum.utils import DisplaySettings
 
 main = Blueprint("main", __name__)
@@ -38,7 +36,7 @@ def image():
 
 @main.route("/images")
 def images():
-    images = Image.query.order_by(asc("added_at")).all()
+    images = ImageModelStorage.get_all_images_by_added_at()
     return render_template("images.html", images=images)
 
 
