@@ -30,7 +30,8 @@ def home():
 
 @main.route("/image")
 def image():
-    image = ImageModelStorage.get_random_image()
+    settings = DisplaySettings.read()
+    image = ImageModelStorage.get_image_to_display(settings.photo_order)
     return render_template("components/image.html", image=image)
 
 

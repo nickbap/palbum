@@ -14,6 +14,7 @@ from palbum.model_storage import ImageModelStorage
 
 class PhotoOrder(str, Enum):
     RANDOM = "random"
+    SEQUENTIAL = "sequential"
 
     @classmethod
     def get_form_choices(cls):

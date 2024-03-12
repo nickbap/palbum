@@ -81,6 +81,17 @@ class ImageModelStorage(BaseModelStorage):
         return image
 
     @classmethod
+    def get_image_to_display(cls, photo_order):
+        from palbum.utils import PhotoOrder
+
+        if photo_order == PhotoOrder.RANDOM:
+            return cls.get_random_image()
+        elif photo_order == PhotoOrder.SEQUENTIAL:
+            return cls.get_sequential_image()
+        else:
+            return
+
+    @classmethod
     def toggle_visibility(cls, image_id):
         image = cls.model.query.filter_by(id=image_id).first()
         if not image:
