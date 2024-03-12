@@ -76,9 +76,15 @@
     {% if settings and settings.fade %}
     <div class="fade-me-out" hx-get="/image" hx-trigger="every {{ settings.display_time }}s"
         hx-swap="innerHTML swap:1s">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     {% else %}
     <div hx-get="/image" hx-trigger="every {{ settings.display_time if settings and settings.display_time else 5 }}s">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
     {% endif %}
 </div>
