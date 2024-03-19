@@ -6,7 +6,7 @@ from wtforms import SubmitField
 from wtforms.validators import DataRequired
 from wtforms.validators import NumberRange
 
-from palbum.utils import PhotoOrder
+from palbum.constants import PhotoOrder
 
 
 class DisplaySettingsForm(FlaskForm):

@@ -1,6 +1,20 @@
 from datetime import datetime
 
 from palbum import db
+from palbum.constants import PhotoOrder
+
+
+class DisplaySettings(db.Model):
+    __tablename__ = "display_settings"
+    id = db.Column(db.Integer, primary_key=True)
+    photo_order = db.Column(
+        db.String(24), nullable=False, default=PhotoOrder.SEQUENTIAL
+    )
+    display_time = db.Column(db.Integer, nullable=False, default=5)
+    fade = db.Column(db.Boolean, nullable=False, default=False)
+
+    def __repr__(self):
+        return f"<DisplaySettings {self.photo_order} {self.display_time} {self.fade}>"
 
 
 class Image(db.Model):

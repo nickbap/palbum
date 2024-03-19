@@ -2,6 +2,8 @@ from sqlalchemy.sql.expression import asc
 from sqlalchemy.sql.expression import func
 
 from palbum import db
+from palbum.constants import PhotoOrder
+from palbum.models import DisplaySettings
 from palbum.models import Image
 from palbum.models import ImageMeta
 
@@ -31,6 +33,36 @@ class BaseModelStorage:
 
         if len(obj) == 1:
             return obj[0]
+
+
+# TODO: test, update usage, remove utils.DisplaySettings
+class DisplaySettingseModelStorage(BaseModelStorage):
+    model = DisplaySettings
+
+    @classmethod
+    def create(cls):
+        display_settings = cls.model()
+        db.session.add(display_settings)
+        db.session.commit()
+        return display_settings
+
+    @classmethod
+    def read(cls):
+        display_settings = cls.get_first()
+        if display_settings:
+            return display_settings
+        return cls.create()
+
+    @classmethod
+    def update(cls, **kwargs):
+        display_settings = cls.get_first()
+        if not display_settings:
+            display_settings = cls.create()
+
+        for key, value in kwargs.items():
+            if key in cls.model.__table__.columns.keys() and key not in {"id"}:
+                setattr(display_settings, key, value)
+        db.session.commit()
 
 
 class ImageModelStorage(BaseModelStorage):
@@ -82,8 +114,6 @@ class ImageModelStorage(BaseModelStorage):
 
     @classmethod
     def get_image_to_display(cls, photo_order):
-        from palbum.utils import PhotoOrder
-
         if photo_order == PhotoOrder.RANDOM:
             return cls.get_random_image()
         elif photo_order == PhotoOrder.SEQUENTIAL:

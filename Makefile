@@ -9,3 +9,6 @@ lint:
 	flake8 palbum
 
 pr: format lint
+
+shell:
+	flask --debug shell

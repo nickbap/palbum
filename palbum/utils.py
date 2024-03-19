@@ -1,8 +1,4 @@
-import json
 import os
-from dataclasses import asdict
-from dataclasses import dataclass
-from enum import Enum
 
 import dropbox
 from flask import current_app
@@ -10,42 +6,6 @@ from PIL import Image as PILImage
 from PIL import ImageOps
 
 from palbum.model_storage import ImageModelStorage
-
-
-class PhotoOrder(str, Enum):
-    RANDOM = "random"
-    SEQUENTIAL = "sequential"
-
-    @classmethod
-    def get_form_choices(cls):
-        return [
-            (value.value, key.title()) for key, value in PhotoOrder.__members__.items()
-        ]
-
-
-@dataclass
-class DisplaySettings:
-    json_name = "display_settings.json"
-
-    photo_order: str
-    display_time: int
-    fade: bool
-
-    def to_dict(self):
-        return asdict(self)
-
-    def save(self):
-        with open(self.json_name, "w") as outfile:
-            json.dump(self.to_dict(), outfile)
-
-    @classmethod
-    def read(cls):
-        try:
-            with open(cls.json_name, "r") as read_file:
-                data = json.load(read_file)
-                return cls(**data)
-        except FileNotFoundError:
-            return
 
 
 def get_image_dir_path(file_name):

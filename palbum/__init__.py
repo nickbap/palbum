@@ -32,6 +32,8 @@ def create_app():
         def make_shell_context():
             return {
                 "db": db,
+                "DisplaySettings": models.DisplaySettings,
+                "DisplaySettingsModelStorage": model_storage.DisplaySettingseModelStorage,
                 "Image": models.Image,
                 "ImageModelStorage": model_storage.ImageModelStorage,
                 "ImageMetaModelStorage": model_storage.ImageMetaModelStorage,

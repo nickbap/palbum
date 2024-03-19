@@ -4,8 +4,8 @@ from flask import render_template
 from flask import url_for
 
 from palbum.forms import DisplaySettingsForm
+from palbum.model_storage import DisplaySettingseModelStorage
 from palbum.model_storage import ImageModelStorage
-from palbum.utils import DisplaySettings
 
 main = Blueprint("main", __name__)
 
@@ -14,13 +14,14 @@ main = Blueprint("main", __name__)
 def home():
     form = DisplaySettingsForm()
     if form.validate_on_submit():
-        new_settings = DisplaySettings(
-            form.photo_order.data, form.display_time.data, form.fade.data
+        DisplaySettingseModelStorage.update(
+            photo_order=form.photo_order.data,
+            display_time=form.display_time.data,
+            fade=form.fade.data,
         )
-        new_settings.save()
         return redirect(url_for("main.home"))
 
-    settings = DisplaySettings.read()
+    settings = DisplaySettingseModelStorage.read()
     if settings:
         form.photo_order.data = settings.photo_order
         form.display_time.data = settings.display_time
@@ -30,7 +31,7 @@ def home():
 
 @main.route("/image")
 def image():
-    settings = DisplaySettings.read()
+    settings = DisplaySettingseModelStorage.read()
     image = ImageModelStorage.get_image_to_display(settings.photo_order)
     return render_template("components/image.html", image=image)
 
