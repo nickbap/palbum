@@ -113,10 +113,11 @@ class ImageModelStorage(BaseModelStorage):
         return image
 
     @classmethod
-    def get_image_to_display(cls, photo_order):
-        if photo_order == PhotoOrder.RANDOM:
+    def get_image_to_display(cls):
+        display_settings = DisplaySettingseModelStorage.read()
+        if display_settings.photo_order == PhotoOrder.RANDOM:
             return cls.get_random_image()
-        elif photo_order == PhotoOrder.SEQUENTIAL:
+        elif display_settings.photo_order == PhotoOrder.SEQUENTIAL:
             return cls.get_sequential_image()
         else:
             return
