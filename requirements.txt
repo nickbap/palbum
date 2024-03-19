@@ -3,4 +3,5 @@ Flask
 Flask-Migrate
 Flask-SQLAlchemy
 Flask-WTF
+pillow
 python-dotenv
