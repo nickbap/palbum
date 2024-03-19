@@ -19,7 +19,7 @@ def get_image_dir_path(file_name=None):
 def maybe_create_image_dir_path():
     image_dir_path = get_image_dir_path()
     if not os.path.exists(image_dir_path):
-        os.mkdirs(image_dir_path)
+        os.makedirs(image_dir_path)
 
 
 def download_images_from_dbx():
