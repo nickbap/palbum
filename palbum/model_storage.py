@@ -35,7 +35,6 @@ class BaseModelStorage:
             return obj[0]
 
 
-# TODO: test, update usage, remove utils.DisplaySettings
 class DisplaySettingseModelStorage(BaseModelStorage):
     model = DisplaySettings
 
