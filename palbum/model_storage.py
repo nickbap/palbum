@@ -79,6 +79,10 @@ class ImageModelStorage(BaseModelStorage):
         return [image.name for image in cls.get_all()]
 
     @classmethod
+    def get_first_visible_image(cls):
+        return cls.model.query.filter_by(is_visible=True).first()
+
+    @classmethod
     def get_all_images_by_added_at(cls):
         return cls.model.query.order_by(asc("added_at")).all()
 
@@ -92,23 +96,28 @@ class ImageModelStorage(BaseModelStorage):
             .limit(1)
             .first()
         )
+        if not image:
+            image = cls.get_first_visible_image()
         ImageMetaModelStorage.set_last_image_id_shown(image.id)
         return image
 
     @classmethod
     def get_sequential_image(cls):
         image_meta = ImageMetaModelStorage.get_last_image_id_shown()
-        image = (
-            cls.model.query.filter(
-                cls.model.is_visible == True,  # noqa: E712
-                cls.model.id > image_meta.last_image_id_shown,
+        if not image_meta:
+            image = cls.get_first_visible_image()
+        else:
+            image = (
+                cls.model.query.filter(
+                    cls.model.is_visible == True,  # noqa: E712
+                    cls.model.id > image_meta.last_image_id_shown,
+                )
+                .order_by(asc(cls.model.id))
+                .limit(1)
+                .first()
             )
-            .order_by(asc(cls.model.id))
-            .limit(1)
-            .first()
-        )
         if not image:
-            image = cls.model.query.filter_by(is_visible=True).first()
+            image = cls.get_first_visible_image()
         ImageMetaModelStorage.set_last_image_id_shown(image.id)
         return image
 
