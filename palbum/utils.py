@@ -8,10 +8,18 @@ from PIL import ImageOps
 from palbum.model_storage import ImageModelStorage
 
 
-def get_image_dir_path(file_name):
-    return os.path.join(
-        current_app.static_folder, current_app.config["IMAGES_DIR"], file_name
-    )
+def get_image_dir_path(file_name=None):
+    if file_name:
+        return os.path.join(
+            current_app.static_folder, current_app.config["IMAGES_DIR"], file_name
+        )
+    return os.path.join(current_app.static_folder, current_app.config["IMAGES_DIR"])
+
+
+def maybe_create_image_dir_path():
+    image_dir_path = get_image_dir_path()
+    if not os.path.exists(image_dir_path):
+        os.mkdir(image_dir_path)
 
 
 def download_images_from_dbx():
@@ -40,6 +48,8 @@ def download_images_from_dbx():
     print(
         f"{len(images_to_download)} new image{'s'if len(images_to_download) > 1 else ''} need to be downloaded"
     )
+
+    maybe_create_image_dir_path()
     for image in images_to_download:
         dbx_file = dbx_image_map.get(image)
         if not dbx_file:
