@@ -88,13 +88,16 @@ class ImageModelStorage(BaseModelStorage):
     @classmethod
     def get_random_image(cls):
         image_meta = ImageMetaModelStorage.get_last_image_id_shown()
-        image = (
-            cls.model.query.filter_by(is_visible=True)
-            .filter(cls.model.id != image_meta.last_image_id_shown)
-            .order_by(func.random())
-            .limit(1)
-            .first()
-        )
+        if not image_meta:
+            image = cls.get_first_visible_image()
+        else:
+            image = (
+                cls.model.query.filter_by(is_visible=True)
+                .filter(cls.model.id != image_meta.last_image_id_shown)
+                .order_by(func.random())
+                .limit(1)
+                .first()
+            )
         if not image:
             image = cls.get_first_visible_image()
         ImageMetaModelStorage.set_last_image_id_shown(image.id)
@@ -157,5 +160,8 @@ class ImageMetaModelStorage(BaseModelStorage):
     @classmethod
     def set_last_image_id_shown(cls, image_id):
         image_meta = cls.get_first()
+        if not image_meta:
+            cls.create(image_id)
+            return
         image_meta.last_image_id_shown = image_id
         db.session.commit()
