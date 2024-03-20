@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from threading import Thread
 
 import dropbox
@@ -19,6 +20,10 @@ def download_images_from_dbx_async():
 def _download_images_from_dbx_async(app):
     with app.app_context():
         download_images_from_dbx()
+
+
+def log_print(*args, **kwargs):
+    print(str(datetime.utcnow()), *args, **kwargs)
 
 
 def get_image_dir_path(file_name=None):
@@ -55,10 +60,10 @@ def download_images_from_dbx():
     current_image_list = ImageModelStorage.get_image_name_list()
     images_to_download = set(dbx_image_map.keys()).difference(set(current_image_list))
     if not images_to_download:
-        print("No new images to download")
+        log_print("No new images to download")
         return
 
-    print(
+    log_print(
         f"{len(images_to_download)} new image{'s'if len(images_to_download) > 1 else ''} need to be downloaded"
     )
 
@@ -66,10 +71,10 @@ def download_images_from_dbx():
     for image in images_to_download:
         dbx_file = dbx_image_map.get(image)
         if not dbx_file:
-            print(f"{image} not found!")
+            log_print(f"{image} not found!")
             continue
         try:
-            print(f"Downloading: {image}")
+            log_print(f"Downloading: {image}")
 
             dbx.files_download_to_file(
                 get_image_dir_path(dbx_file.name),
@@ -80,9 +85,9 @@ def download_images_from_dbx():
 
             ImageModelStorage.create(image)
 
-            print(f"{image} downloaded and saved successfully")
+            log_print(f"{image} downloaded and saved successfully")
         except Exception as e:
-            print(f"{e} hit while processing {image}")
+            log_print(f"{e} hit while processing {image}")
             continue
 
 
