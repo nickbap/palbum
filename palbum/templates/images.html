@@ -2,9 +2,14 @@
 {% extends '_base.html' %}
 
 {% block content %}
-<button type="button" class="btn btn-link link-secondary link-underline link-underline-opacity-0">
-    <a class="text-decoration-none text-reset" href="{{ url_for('main.home') }}">Home</a>
-</button>
+<div class="d-flex justify-content-between">
+    <button type="button" class="btn btn-link link-secondary link-underline link-underline-opacity-0">
+        <a class="text-decoration-none text-reset" href="{{ url_for('main.home') }}">Home</a>
+    </button>
+    <button type="button" class="btn btn-link link-secondary link-underline link-underline-opacity-0">
+        <a class="text-decoration-none text-reset" href="{{ url_for('main.download_images') }}">Check for New Images</a>
+    </button>
+</div>
 
 <h1 class="py-3 text-center">Image Manager</h1>
 {% if images %}

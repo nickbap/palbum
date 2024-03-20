@@ -1,4 +1,5 @@
 import os
+from threading import Thread
 
 import dropbox
 from flask import current_app
@@ -6,6 +7,18 @@ from PIL import Image as PILImage
 from PIL import ImageOps
 
 from palbum.model_storage import ImageModelStorage
+
+
+def download_images_from_dbx_async():
+    Thread(
+        target=_download_images_from_dbx_async,
+        args=(current_app._get_current_object(),),
+    ).start()
+
+
+def _download_images_from_dbx_async(app):
+    with app.app_context():
+        download_images_from_dbx()
 
 
 def get_image_dir_path(file_name=None):

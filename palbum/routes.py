@@ -6,6 +6,7 @@ from flask import url_for
 from palbum.forms import DisplaySettingsForm
 from palbum.model_storage import DisplaySettingseModelStorage
 from palbum.model_storage import ImageModelStorage
+from palbum.utils import download_images_from_dbx_async
 
 main = Blueprint("main", __name__)
 
@@ -45,3 +46,9 @@ def images():
 def image_toggle(image_id):
     image = ImageModelStorage.toggle_visibility(image_id)
     return render_template("components/image-manager-image.html", image=image)
+
+
+@main.route("/download-images")
+def download_images():
+    download_images_from_dbx_async()
+    return render_template("downloading.html")
