@@ -39,7 +39,12 @@ def image():
 @main.route("/images")
 def images():
     images = ImageModelStorage.get_all_images_by_added_at()
-    return render_template("images.html", images=images)
+    image_stats = {
+        "total": len(images),
+        "visible": sum([1 for image in images if image.is_visible]),
+        "hidden": sum([1 for image in images if not image.is_visible]),
+    }
+    return render_template("images.html", images=images, image_stats=image_stats)
 
 
 @main.route("/image/toggle/<int:image_id>", methods=["POST"])
