@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import redirect
 from flask import render_template
+from flask import request
 from flask import url_for
 
 from palbum.forms import DisplaySettingsForm
@@ -38,13 +39,9 @@ def image():
 
 @main.route("/images")
 def images():
-    images = ImageModelStorage.get_all_images_by_added_at()
-    image_stats = {
-        "total": len(images),
-        "visible": sum([1 for image in images if image.is_visible]),
-        "hidden": sum([1 for image in images if not image.is_visible]),
-        "last_image_added_at": max([image.added_at for image in images]),
-    }
+    page = request.args.get("page", 1, type=int)
+    images = ImageModelStorage.get_all_images_by_added_at(page=page)
+    image_stats = ImageModelStorage.get_all_image_stats()
     return render_template("images.html", images=images, image_stats=image_stats)
 
 

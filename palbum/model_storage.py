@@ -66,6 +66,7 @@ class DisplaySettingseModelStorage(BaseModelStorage):
 
 class ImageModelStorage(BaseModelStorage):
     model = Image
+    IMAGES_PER_AGE = 10
 
     @classmethod
     def create(cls, name, is_visible=True):
@@ -82,8 +83,20 @@ class ImageModelStorage(BaseModelStorage):
         return cls.model.query.filter_by(is_visible=True).first()
 
     @classmethod
-    def get_all_images_by_added_at(cls):
-        return cls.model.query.order_by(asc("added_at")).all()
+    def get_all_images_by_added_at(cls, page=1):
+        return cls.model.query.order_by(asc("added_at")).paginate(
+            page=page, per_page=cls.IMAGES_PER_AGE
+        )
+
+    @classmethod
+    def get_all_image_stats(cls):
+        images = cls.model.query.order_by(asc("added_at")).all()
+        return {
+            "total": len(images),
+            "visible": sum([1 for image in images if image.is_visible]),
+            "hidden": sum([1 for image in images if not image.is_visible]),
+            "last_image_added_at": max([image.added_at for image in images]),
+        }
 
     @classmethod
     def get_random_image(cls):
