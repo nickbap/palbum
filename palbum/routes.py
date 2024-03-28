@@ -43,6 +43,7 @@ def images():
         "total": len(images),
         "visible": sum([1 for image in images if image.is_visible]),
         "hidden": sum([1 for image in images if not image.is_visible]),
+        "last_image_added_at": max([image.added_at for image in images]),
     }
     return render_template("images.html", images=images, image_stats=image_stats)
 
